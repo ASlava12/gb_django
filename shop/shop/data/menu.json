@@ -1,0 +1,14 @@
+[
+    {
+        "name": "main",
+        "description": "домой"
+    },
+    {
+        "name": "products",
+        "description": "продукты"
+    },
+    {
+        "name": "contact",
+        "description": "контакты"
+    }
+]
