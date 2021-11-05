@@ -7,10 +7,11 @@ from django.utils import timezone
 
 from shop.settings import BASE_DIR
 
-from .models import Product, ProductCategory, Contact
+from .models import Contact, Product, ProductCategory
 
 with open(join(BASE_DIR, "shop/data/menu.json")) as m:
     menu = load(m)
+
 
 def main(request):
     title = "главная"

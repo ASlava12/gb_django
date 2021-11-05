@@ -1,6 +1,10 @@
 {% extends 'authapp/base.html' %}
 {% load staticfiles %}
 
+{% block header %}
+Вход в систему
+{% endblock header %}
+
 {% block content %}
 
 <form class="form-horizontal" action="{% url 'auth:login' %}" method="post">
@@ -9,5 +13,10 @@
     <br>
     <input class="form-control" type="submit" value="войти">
 </form>
+<button class="btn btn-round form-control">
+    <a href="{% url 'auth:register' %}" class="">
+        зарегистрироваться
+    </a>
+</button>
 
 {% endblock content %}

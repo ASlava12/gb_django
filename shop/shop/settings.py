@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 ]
 
 # Auth model
-AUTH_USER_MODEL = 'authapp.ShopUser'
+AUTH_USER_MODEL = "authapp.ShopUser"
 
 
 MIDDLEWARE = [
