@@ -7,7 +7,7 @@ from django.utils import timezone
 
 from shop.settings import BASE_DIR
 
-from .models import Product, ProductCategory
+from .models import Product, ProductCategory, Contact
 
 with open(join(BASE_DIR, "shop/data/menu.json")) as m:
     menu = load(m)
@@ -40,20 +40,6 @@ def products(request, pk=None):
 def contact(request):
     title = "о нас"
     visit_date = timezone.now()
-    locations = [
-        {"city": "Москва", "phone": "+7-888-888-8888", "email": "info@geekshop.ru", "address": "В пределах МКАД"},
-        {
-            "city": "Екатеринбург",
-            "phone": "+7-777-777-7777",
-            "email": "info_yekaterinburg@geekshop.ru",
-            "address": "Близко к центру",
-        },
-        {
-            "city": "Владивосток",
-            "phone": "+7-999-999-9999",
-            "email": "info_vladivostok@geekshop.ru",
-            "address": "Близко к океану",
-        },
-    ]
+    locations = Contact.objects.all()
     content = {"title": title, "visit_date": visit_date, "locations": locations, "menu": menu}
     return render(request, "mainapp/contact.html", content)
