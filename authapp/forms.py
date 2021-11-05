@@ -28,6 +28,12 @@ class ShopUserRegisterForm(UserCreationForm):
             raise forms.ValidationError("Вы слишком молоды!")
         return data
 
+    def clean_username(self):
+        username = self.cleaned_data["username"]
+        if "test" in username:
+            raise forms.ValidationError("Недопустимый логин!")
+        return username
+
     class Meta:
         model = ShopUser
         fields = ("username", "first_name", "password1", "password2", "email", "age", "avatar")

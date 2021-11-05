@@ -13,8 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-import mainapp.views as mainapp
 from django.urls import path
+
+import mainapp.views as mainapp
 
 app_name = "mainapp"
 
