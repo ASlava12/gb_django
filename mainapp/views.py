@@ -1,56 +1,59 @@
-from json import load
-from os.path import join
-
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 
-from shop.settings import BASE_DIR
+from basketapp.models import Basket
 
 from .models import Contact, Product, ProductCategory
-
-"""
-Исправил как в замечании, но мне кажеться, что предыдущий вариает был лучше.
-Т.к. на сервере, если одновременно придет пара запросов, может возникнуть 
-  блокировка файла, что приведет к тому, что один из потоков, будет дожидаться
-  освобождение ресурса. В малых масштабах - это не сильно сыграет роли, но 
-  при большом кол-ве запросов, это скажеться значительно.
-
-Можно меню запихнуть в базу данных, однако, каждый раз тягать из базы то, что
-используется постояно - увеличивает нагрузку на бд. 
-
-Механизм запоминания - (а именно кеш) - исправит проблему, что и можно встретить,
-  если завести переменную.
-
-Будет круто, если подскажете - как реализовать загрузку меню, используя
-  механизм кеша.
-"""
-
-
-def load_menu():
-    with open(join(BASE_DIR, "shop/data/menu.json")) as m:
-        return load(m)
 
 
 def main(request):
     title = "главная"
 
-    products = Product.objects.all()
+    products = Product.objects.all()[:4]
 
-    content = {"title": title, "products": products, "media_url": settings.MEDIA_URL, "menu": load_menu()}
+    content = {"title": title, "products": products, "media_url": settings.MEDIA_URL}
     return render(request, "mainapp/index.html", content)
 
 
 def products(request, pk=None):
     title = "продукты"
     links_menu = ProductCategory.objects.all()
+
+    basket = None
+    basket_count, basket_price = 0, 0
+    if request.user.is_authenticated:
+        basket = Basket.objects.filter(user=request.user)
+        basket_count = sum(basket_row.quantity for basket_row in basket)
+        basket_price = sum(basket_row.quantity * basket_row.product.price for basket_row in basket)
+        # or you can use this
+        # _basket = request.user.basket.all()
+        # print(f'basket / _basket: {len(_basket)} / {len(basket)}')
+
+    if pk is not None:
+        if pk == 0:
+            products = Product.objects.all().order_by("price")
+            category = {"name": "все"}
+        else:
+            category = get_object_or_404(ProductCategory, pk=pk)
+            products = Product.objects.filter(category__pk=pk).order_by("price")
+        content = {
+            "title": title,
+            "links_menu": links_menu,
+            "category": category,
+            "products": products,
+            "media_url": settings.MEDIA_URL,
+            "basket": f"{basket_price}|{basket_count}",
+        }
+        return render(request, "mainapp/products_list.html", content)
     same_products = Product.objects.all()
     content = {
         "title": title,
         "links_menu": links_menu,
         "same_products": same_products,
         "media_url": settings.MEDIA_URL,
-        "menu": load_menu(),
+        "same_products": same_products,
+        "basket": f"{basket_price}|{basket_count}",
     }
     if pk:
         print(f"User select category: {pk}")
@@ -61,5 +64,5 @@ def contact(request):
     title = "о нас"
     visit_date = timezone.now()
     locations = Contact.objects.all()
-    content = {"title": title, "visit_date": visit_date, "locations": locations, "menu": load_menu()}
+    content = {"title": title, "visit_date": visit_date, "locations": locations}
     return render(request, "mainapp/contact.html", content)
