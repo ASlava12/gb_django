@@ -20,12 +20,9 @@ def products(request, pk=None):
     title = "продукты"
     links_menu = ProductCategory.objects.all()
 
-    basket = None
-    basket_count, basket_price = 0, 0
+    basket = []
     if request.user.is_authenticated:
         basket = Basket.objects.filter(user=request.user)
-        basket_count = sum(basket_row.quantity for basket_row in basket)
-        basket_price = sum(basket_row.quantity * basket_row.product.price for basket_row in basket)
         # or you can use this
         # _basket = request.user.basket.all()
         # print(f'basket / _basket: {len(_basket)} / {len(basket)}')
@@ -43,7 +40,7 @@ def products(request, pk=None):
             "category": category,
             "products": products,
             "media_url": settings.MEDIA_URL,
-            "basket": f"{basket_price}|{basket_count}",
+            "basket": basket,
         }
         return render(request, "mainapp/products_list.html", content)
     same_products = Product.objects.all()
@@ -53,7 +50,7 @@ def products(request, pk=None):
         "same_products": same_products,
         "media_url": settings.MEDIA_URL,
         "same_products": same_products,
-        "basket": f"{basket_price}|{basket_count}",
+        "basket": basket,
     }
     if pk:
         print(f"User select category: {pk}")
