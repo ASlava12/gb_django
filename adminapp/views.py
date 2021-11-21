@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib.auth.decorators import user_passes_test
-from django.shortcuts import HttpResponseRedirect, get_object_or_404, redirect, render
+from django.shortcuts import (HttpResponseRedirect, get_object_or_404,
+                              redirect, render)
 from django.urls import reverse
 
 from adminapp.forms import ProductCategoryEditForm, ShopUserAdminEditForm
