@@ -3,8 +3,7 @@ from django.contrib import auth
 from django.shortcuts import HttpResponseRedirect, render
 from django.urls import reverse
 
-from authapp.forms import (ShopUserEditForm, ShopUserLoginForm,
-                           ShopUserRegisterForm)
+from authnapp.forms import ShopUserEditForm, ShopUserLoginForm, ShopUserRegisterForm
 
 
 def login(request):
@@ -25,7 +24,7 @@ def login(request):
             return HttpResponseRedirect(reverse("main"))
 
     content = {"title": title, "login_form": login_form, "next_page": next_page}
-    return render(request, "authapp/login.html", content)
+    return render(request, "authnapp/login.html", content)
 
 
 def logout(request):
@@ -44,7 +43,7 @@ def register(request):
             return HttpResponseRedirect(reverse("auth:login"))
     register_form = ShopUserRegisterForm()
     content = {"title": title, "register_form": register_form}
-    return render(request, "authapp/register.html", content)
+    return render(request, "authnapp/register.html", content)
 
 
 def edit(request):
@@ -57,4 +56,4 @@ def edit(request):
             return HttpResponseRedirect(reverse("auth:edit"))
     edit_form = ShopUserEditForm(instance=request.user)
     content = {"title": title, "edit_form": edit_form, "media_url": settings.MEDIA_URL}
-    return render(request, "authapp/edit.html", content)
+    return render(request, "authnapp/edit.html", content)

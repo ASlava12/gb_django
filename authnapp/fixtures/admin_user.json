@@ -1,6 +1,6 @@
 [
     {
-        "model": "authapp.shopuser",
+        "model": "authnapp.shopuser",
         "pk": 1,
         "fields": {
             "password": "pbkdf2_sha256$150000$Poyfal2RNsKa$AAnI/z9WprCunEwku4YKvIU9lJAVNsQ//rH2K9Qy2YY=",
@@ -20,4 +20,3 @@
         }
     }
 ]
-
