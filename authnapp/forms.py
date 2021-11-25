@@ -1,6 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
-                                       UserCreationForm)
+from django.contrib.auth.forms import AuthenticationForm, UserChangeForm, UserCreationForm
 
 from .models import ShopUser
 
@@ -28,12 +27,6 @@ class ShopUserRegisterForm(UserCreationForm):
         if data < 18:
             raise forms.ValidationError("Вы слишком молоды!")
         return data
-
-    def clean_username(self):
-        username = self.cleaned_data["username"]
-        if "test" in username:
-            raise forms.ValidationError("Недопустимый логин!")
-        return username
 
     class Meta:
         model = ShopUser
