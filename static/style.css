@@ -1825,3 +1825,10 @@ td:first-child {
 .related-products a:hover .text {
     display: block;
 }
+
+.container {
+    width: 1366px;
+    max-width: 1366px;
+    margin: 0 auto;
+    min-height: 100%;
+}
