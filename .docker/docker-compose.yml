@@ -1,0 +1,46 @@
+version: "3.7"
+services:
+
+  mysql:
+    image: mysql:5.7.36
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=123123
+      - MYSQL_DATABASE=django
+      - MYSQL_USER=django
+      - MYSQL_PASSWORD=123456
+    restart: always
+    volumes:
+      - db-data:/var/lib/mysql/
+      - mysql-socket:/run/mysqld/
+      - $PWD/mysql/custom.cnf:/etc/mysql/conf.d/custom.cnf
+
+  app:
+    build:
+      context: ../.
+      dockerfile: ./.docker/app.Dockerfile
+    expose:
+      - 8000
+    volumes:
+      - app-data:/geekshop
+      - mysql-socket:/run/mysqld/
+    environment:
+      - DJANGO_PRODUCTION=1
+    depends_on:
+      - "mysql"
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./nginx.Dockerfile
+    ports:
+      - 80:80
+    volumes:
+      - app-data:/geekshop
+    depends_on:
+      - "app"
+
+volumes:
+  db-data:
+  app-data:
+  mysql-socket:
