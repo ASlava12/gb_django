@@ -1,0 +1,18 @@
+server {
+    listen 80;
+    server_name django.nas.su www.django.nas.su;
+    
+    location = /favicon.ico { access_log off; log_not_found off; }
+    
+    location /static/ {
+        root /geekshop;
+    }
+    
+    location /media/ {
+        root /geekshop;
+    }
+    
+    location / {
+        proxy_pass http://unix:/geekshop/geekshop.sock;
+    }
+}
