@@ -22,7 +22,7 @@ services:
     expose:
       - 8000
     volumes:
-      - app-data:/geekshop
+      - $PWD/../:/geekshop
       - mysql-socket:/run/mysqld/
     environment:
       - DJANGO_PRODUCTION=1
@@ -36,11 +36,10 @@ services:
     ports:
       - 80:80
     volumes:
-      - app-data:/geekshop
+      - $PWD/../:/geekshop
     depends_on:
       - "app"
 
 volumes:
   db-data:
-  app-data:
   mysql-socket:
