@@ -13,6 +13,6 @@ server {
     }
     
     location / {
-        proxy_pass http://unix:/geekshop/geekshop.sock;
+        proxy_pass http://unix:/var/run/geekshop/geekshop.sock;
     }
 }

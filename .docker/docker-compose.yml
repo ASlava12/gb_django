@@ -24,6 +24,7 @@ services:
     volumes:
       - $PWD/../:/geekshop
       - mysql-socket:/run/mysqld/
+      - app-socket:/var/run/geekshop/
     environment:
       - DJANGO_PRODUCTION=1
     depends_on:
@@ -37,9 +38,11 @@ services:
       - 80:80
     volumes:
       - $PWD/../:/geekshop
+      - app-socket:/var/run/geekshop/
     depends_on:
       - "app"
 
 volumes:
   db-data:
   mysql-socket:
+  app-socket:
