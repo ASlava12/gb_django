@@ -19,8 +19,6 @@ services:
     build:
       context: ../.
       dockerfile: ./.docker/app.Dockerfile
-    expose:
-      - 8000
     volumes:
       - $PWD/../:/geekshop
       - mysql-socket:/run/mysqld/
@@ -44,12 +42,7 @@ services:
       - "app"
 
   memcached:
-    image: 1.6.12
-    expose:
-      - 11211
-    mem_limit: 512m
-    mem_reservation: 128M
-
+    image: memcached:1.6.12
 
 volumes:
   db-data:

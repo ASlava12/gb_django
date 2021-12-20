@@ -244,10 +244,16 @@ CACHE_MIDDLEWARE_KEY_PREFIX = "geekbrains"
 
 # Be carefull if you have Windows! Install Memcached before run project!
 #     https://www.ubergizmo.com/how-to/install-memcached-windows/
+
+if DEBUG:
+    MEMCACHE_HOST = "127.0.0.1"
+else:
+    MEMCACHE_HOST = "memcached"
+
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.memcached.MemcachedCache",
-        "LOCATION": "127.0.0.1:11211",
+        "LOCATION": f"{MEMCACHE_HOST}:11211",
     }
 }
 
