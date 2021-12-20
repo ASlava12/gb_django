@@ -9,6 +9,12 @@
 * `VSCode`
 * `SQLite3`
 
+## Доп по
+* `memcache` : 
+```
+docker run --rm --name my-memcache -p 11211:11211 -m 128M -d memcached
+```
+
 ## Лицензия
 
 MIT
