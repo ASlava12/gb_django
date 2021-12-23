@@ -212,7 +212,7 @@ if DEBUG:
     MIDDLEWARE.extend(["debug_toolbar.middleware.DebugToolbarMiddleware"])
 
 # Debgu tool bar settings
-if DEBUG:
+if DEBUG and False:
 
     def show_toolbar(request):
         return True
